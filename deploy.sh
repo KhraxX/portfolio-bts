@@ -9,6 +9,9 @@ echo "🚚 Déploiement dans /var/www/roudard.fr..."
 sudo rm -rf /var/www/roudard.fr/*
 sudo mv  ./ /var/www/roudard.fr/
 
+sudo chown -R www-data:www-data /var/www/roudard.fr
+sudo chmod -R 755 /var/www/roudard.fr
+
 sudo systecmctl start nginx
 
 echo "🔄 Reload de Nginx (au cas où)..."
