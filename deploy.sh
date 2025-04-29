@@ -1,9 +1,9 @@
 #!/bin/bash
 
 echo "📥 Pull du dépôt Git..."
-git pull origin main
+git pull
 
-echo "🚚 Déploiement dans /var/www/html..."
+echo "🚚 Déploiement dans /var/www/roudard.fr..."
 sudo rm -rf /var/www/roudard.fr/*
 sudo mv -r ./ /var/www/roudard.fr/
 
