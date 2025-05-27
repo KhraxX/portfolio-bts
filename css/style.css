@@ -315,6 +315,7 @@ img {
     left: 50%;
     margin-left: -3px;
     border-radius: 10px;
+    z-index: 1;
 }
 
 .timeline-item {
@@ -323,6 +324,7 @@ img {
     width: 50%;
     box-sizing: border-box;
     margin-bottom: 50px;
+    z-index: 10;
 }
 
 .timeline-item:nth-child(odd) {
@@ -344,8 +346,9 @@ img {
     align-items: center;
     justify-content: center;
     color: white;
-    z-index: 10;
+    z-index: 100;
     box-shadow: var(--shadow);
+    border: 4px solid white;
 }
 
 .timeline-item:nth-child(odd) .timeline-icon {
@@ -379,6 +382,39 @@ img {
     color: #777;
     display: block;
     margin-bottom: 0.8rem;
+}
+
+/* Style pour l'élément futur */
+.timeline-future .timeline-icon {
+    background: var(--accent-color);
+    border-color: white;
+    animation: pulse-future 2s ease-in-out infinite;
+}
+
+.timeline-future .timeline-content {
+    border-left: 4px solid var(--accent-color);
+    background: linear-gradient(135deg, #fff 0%, #f8f9ff 100%);
+}
+
+.timeline-future .timeline-content h3 {
+    color: var(--accent-color);
+}
+
+.timeline-future .timeline-content .date {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+@keyframes pulse-future {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 101, 132, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 101, 132, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 101, 132, 0);
+    }
 }
 
 /* === SECTION COMPÉTENCES === */

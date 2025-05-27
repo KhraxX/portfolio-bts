@@ -1,5 +1,8 @@
 // Attendre que le DOM soit complètement chargé
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialisation d'EmailJS avec votre User ID (à remplacer)
+    emailjs.init("gZI0ozqtYlMbsFG32"); // Vous devez remplacer ceci par votre User ID EmailJS
+    
     // Initialisation des animations AOS
     AOS.init({
         duration: 1000,
@@ -121,40 +124,72 @@ document.addEventListener('DOMContentLoaded', function() {
     // Animation des particules d'arrière-plan
     createParticles();
 
-    // Gestion du formulaire de contact
+    // Gestion du formulaire de contact avec EmailJS
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Simuler l'envoi du formulaire
+            // Récupérer les données du formulaire
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            // Vérifier que tous les champs sont remplis
+            if (!name || !email || !subject || !message) {
+                showNotification('Veuillez remplir tous les champs !', 'error');
+                return;
+            }
+            
+            // Animation du bouton
             const submitBtn = this.querySelector('.btn-submit');
             const originalText = submitBtn.textContent;
             
             submitBtn.textContent = 'Envoi en cours...';
             submitBtn.disabled = true;
             
-            setTimeout(() => {
-                // Réinitialiser le formulaire
-                this.reset();
-                submitBtn.textContent = 'Envoyé !';
-                
-                // Créer une notification
-                showNotification('Message envoyé avec succès !');
-                
-                // Réinitialiser le bouton après 3 secondes
-                setTimeout(() => {
+            // Paramètres pour EmailJS
+            const templateParams = {
+                from_name: name,
+                from_email: email,
+                subject: subject,
+                message: message,
+                to_email: 'robin.oudard.sen@gmail.com'
+            };
+            
+            // Envoyer l'email via EmailJS
+            emailjs.send('service_b8ugqbq', 'template_zntocjb', templateParams)
+                .then(function(response) {
+                    console.log('Email envoyé avec succès!', response.status, response.text);
+                    
+                    // Réinitialiser le formulaire
+                    contactForm.reset();
+                    
+                    // Notification de succès
+                    showNotification('Message envoyé avec succès ! Je vous répondrai bientôt.', 'success');
+                    
+                    // Réinitialiser le bouton
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
-                }, 3000);
-            }, 1500);
+                    
+                }, function(error) {
+                    console.error('Erreur lors de l\'envoi:', error);
+                    
+                    // Notification d'erreur
+                    showNotification('Erreur lors de l\'envoi. Veuillez réessayer.', 'error');
+                    
+                    // Réinitialiser le bouton
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                });
         });
     }
 
     // Fonction pour créer une notification
-    function showNotification(message) {
+    function showNotification(message, type = 'success') {
         const notification = document.createElement('div');
-        notification.className = 'notification';
+        notification.className = `notification ${type}`;
         notification.textContent = message;
         
         document.body.appendChild(notification);
@@ -164,13 +199,15 @@ document.addEventListener('DOMContentLoaded', function() {
             notification.classList.add('show');
         }, 10);
         
-        // Disparition après 3 secondes
+        // Disparition après 5 secondes
         setTimeout(() => {
             notification.classList.remove('show');
             setTimeout(() => {
-                document.body.removeChild(notification);
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
             }, 300);
-        }, 3000);
+        }, 5000);
     }
 
     // Fonction pour créer des particules d'arrière-plan
@@ -278,7 +315,6 @@ function addAnimationStyles() {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background: var(--primary-color);
             color: white;
             padding: 15px 25px;
             border-radius: 8px;
@@ -287,6 +323,15 @@ function addAnimationStyles() {
             opacity: 0;
             transition: all 0.3s ease;
             z-index: 1000;
+            max-width: 400px;
+        }
+        
+        .notification.success {
+            background: #4CAF50;
+        }
+        
+        .notification.error {
+            background: #f44336;
         }
         
         .notification.show {
