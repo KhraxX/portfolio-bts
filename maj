@@ -1,0 +1,25 @@
+Dans terminal 
+
+git status
+git add .
+git commit -m "Mise à jour portfolio"
+git push origin main
+
+vps 
+git pull origin main
+# Copiez directement vos fichiers
+sudo rm -rf /var/www/roudard.fr/*
+sudo cp -r ./* /var/www/roudard.fr/
+
+# MAIS excluez les fichiers inutiles
+sudo rm -rf /var/www/roudard.fr/.git
+sudo rm -rf /var/www/roudard.fr/node_modules
+sudo rm /var/www/roudard.fr/deploy.sh
+sudo rm /var/www/roudard.fr/README.md
+
+# Permissions
+sudo chown -R www-data:www-data /var/www/roudard.fr/
+sudo chmod -R 755 /var/www/roudard.fr/
+
+# Redémarrez nginx
+sudo systemctl restart nginx
