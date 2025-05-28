@@ -1,7 +1,7 @@
 // Attendre que le DOM soit complètement chargé
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialisation d'EmailJS avec votre User ID (à remplacer)
-    emailjs.init("VOTRE_USER_ID"); // Vous devez remplacer ceci par votre User ID EmailJS
+    // Initialisation d'EmailJS avec votre User ID
+    emailjs.init("gZI0ozqtYlMbsFG32"); // Votre User ID EmailJS
     
     // Initialisation des animations AOS
     AOS.init({
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             
             // Envoyer l'email via EmailJS
-            emailjs.send('service_b8ugqbq', 'VOTRE_TEMPLATE_ID', templateParams)
+            emailjs.send('service_b8ugqbq', 'template_zntocjb', templateParams)
                 .then(function(response) {
                     console.log('Email envoyé avec succès!', response.status, response.text);
                     
